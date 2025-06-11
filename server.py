@@ -6,7 +6,7 @@ import os
 
 app = FastAPI()
 
-MODEL_PATH = "models/ggml-medium.bin"
+MODEL_PATH = "models/ggml-small.bin"
 BINARY = "./main"
 
 @app.post("/transcribe")
