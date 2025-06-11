@@ -8,11 +8,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 COPY . /app
 
-# build whisper.cpp binary
-RUN make main
+# build whisper.cpp binary using CMake
+RUN cmake -B build
+RUN cmake --build build --config Release -j$(nproc)
 
-# link whisper-cli if main is just a wrapper
-RUN if [ ! -f /app/main ]; then ln -s build/bin/whisper-cli /app/main; fi
+# create a symlink to whisper-cli
+RUN ln -s build/bin/whisper-cli /app/main
 
 # download model
 RUN mkdir -p models && \
