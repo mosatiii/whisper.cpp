@@ -17,7 +17,7 @@ RUN ln -s build/bin/whisper-cli /app/main
 
 # download model
 RUN mkdir -p models && \
-    wget -O models/ggml-medium.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-medium.bin
+    wget -O models/ggml-small.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin
 
 # install python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
