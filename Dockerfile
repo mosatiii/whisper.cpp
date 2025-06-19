@@ -1,27 +1,28 @@
 FROM python:3.11-slim
 
-# install system dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential cmake ffmpeg wget git && \
+    build-essential cmake ffmpeg wget git pkg-config && \
     rm -rf /var/lib/apt/lists/*
 
+# Set working directory
 WORKDIR /app
 COPY . /app
 
-# build whisper.cpp binary using CMake
-RUN cmake -B build
-RUN cmake --build build --config Release -j$(nproc)
+# Build whisper.cpp with full Release optimizations
+RUN cmake -B build -DCMAKE_BUILD_TYPE=Release && \
+    cmake --build build --config Release -j$(nproc)
 
-# create a symlink to whisper-cli
+# Symlink to final binary name
 RUN ln -s build/bin/whisper-cli /app/main
 
-# download model
-# download model (using smaller model for memory constraints)
+# Download quantized model (fast + memory-efficient)
 RUN mkdir -p models && \
     wget -O models/ggml-small-q5_1.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small-q5_1.bin
 
-# install python dependencies
+# Install Python requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Expose port and run API
 EXPOSE 8000
 CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
