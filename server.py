@@ -16,8 +16,8 @@ MODEL_PATH     = os.path.join(os.path.dirname(__file__), "models", "ggml-small.b
 BINARY         = "./main"
 CHUNK_DIR      = "chunks"
 CHUNK_DUR      = 35     # seconds
-MAX_PARALLEL   = 2      # only for long audio
-WHISPER_THREADS = 1     # whisper.cpp -t 1
+MAX_PARALLEL   = 4      # only for long audio
+WHISPER_THREADS = 2     # whisper.cpp -t 1
 
 @app.post("/transcribe")
 async def transcribe(audio: UploadFile = File(...)):
