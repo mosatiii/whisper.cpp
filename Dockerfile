@@ -16,8 +16,9 @@ RUN cmake --build build --config Release -j$(nproc)
 RUN ln -s build/bin/whisper-cli /app/main
 
 # download model
+# download model (using smaller model for memory constraints)
 RUN mkdir -p models && \
-    wget -O models/ggml-small.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin
+    wget -O models/ggml-small-q5_1.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small-q5_1.bin
 
 # install python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
