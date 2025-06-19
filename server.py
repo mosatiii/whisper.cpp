@@ -12,7 +12,7 @@ from fastapi.responses import PlainTextResponse
 logging.basicConfig(level=logging.INFO)
 app = FastAPI()
 
-MODEL_PATH     = os.path.join(os.path.dirname(__file__), "models", "ggml-small.bin")
+MODEL_PATH     = os.path.join(os.path.dirname(__file__), "models", "ggml-small-q5_1.bin")
 BINARY         = "./main"
 CHUNK_DIR      = "chunks"
 CHUNK_DUR      = 35     # seconds
